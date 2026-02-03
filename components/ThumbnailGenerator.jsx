@@ -76,8 +76,8 @@ export default function ThumbnailGenerator() {
   const [theme, setTheme] = useState('dark');
   const [textPosition, setTextPosition] = useState('bottom-left');
   const [imagePosition, setImagePosition] = useState('top-right');
-  const [selectedIllustration, setSelectedIllustration] = useState('stadium-white');
-  const [imageSize, setImageSize] = useState(250);
+  const [selectedIllustration, setSelectedIllustration] = useState(() => { const avail = ILLUSTRATIONS.filter(i => i.id !== 'none'); return avail[Math.floor(Math.random() * avail.length)].id; });
+  const [imageSize, setImageSize] = useState(450);
 
   React.useEffect(() => {
     const loadFonts = async () => {
@@ -270,7 +270,7 @@ export default function ThumbnailGenerator() {
           </div>
           <div>
             <label style={labelStyle}>Taille: {imageSize}px</label>
-            <input type="range" min={100} max={400} value={imageSize} onChange={(e) => setImageSize(Number(e.target.value))} style={{ width: '100%' }} />
+            <input type="range" min={100} max={700} value={imageSize} onChange={(e) => setImageSize(Number(e.target.value))} style={{ width: '100%' }} />
           </div>
           <button onClick={handleExport} style={{ padding: '14px 24px', backgroundColor: PALETTE.violet, color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600', fontSize: '16px', cursor: 'pointer', marginTop: '8px' }}>
             Exporter PNG
