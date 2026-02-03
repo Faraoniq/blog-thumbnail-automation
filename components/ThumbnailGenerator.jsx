@@ -78,6 +78,8 @@ export default function ThumbnailGenerator() {
   const [imagePosition, setImagePosition] = useState('top-right');
   const [selectedIllustration, setSelectedIllustration] = useState(() => { const avail = ILLUSTRATIONS.filter(i => i.id !== 'none'); return avail[Math.floor(Math.random() * avail.length)].id; });
   const [imageSize, setImageSize] = useState(450);
+  const [imageOffsetX, setImageOffsetX] = useState(0);
+  const [imageOffsetY, setImageOffsetY] = useState(0);
 
   React.useEffect(() => {
     const loadFonts = async () => {
@@ -106,6 +108,8 @@ export default function ThumbnailGenerator() {
     const availableIllus = ILLUSTRATIONS.filter(i => i.id !== 'none');
     if (availableIllus.length > 0) {
       setSelectedIllustration(availableIllus[Math.floor(Math.random() * availableIllus.length)].id);
+      setImageOffsetX(0);
+      setImageOffsetY(0);
     }
   }, []);
 
@@ -191,7 +195,7 @@ export default function ThumbnailGenerator() {
       img.crossOrigin = 'anonymous';
       img.onload = () => {
         const iPos = getCanvasPos(imagePosition, imageSize);
-        ctx.drawImage(img, iPos.x, iPos.y, imageSize, imageSize);
+        ctx.drawImage(img, iPos.x + imageOffsetX, iPos.y + imageOffsetY, imageSize, imageSize);
         drawText();
         doExport();
       };
@@ -225,10 +229,10 @@ export default function ThumbnailGenerator() {
       <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
         <div style={{ width: CANVAS.width, height: CANVAS.height, backgroundColor: currentTheme.bg, borderRadius: '8px', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
           {imageUrl && (
-            <img src={imageUrl} alt="" style={{ position: 'absolute', width: imageSize, height: imageSize, objectFit: 'contain', ...imagePosData.style }} />
+            <img src={imageUrl} alt="" style={{ position: 'absolute', width: imageSize, height: imageSize, objectFit: 'contain', ...imagePosData.style, transform: `translate(${imageOffsetX}px, ${imageOffsetY}px)` }} />
           )}
           <div style={{ position: 'absolute', maxWidth: 400, color: currentTheme.text, textAlign: getTextAlign(textPosition), ...textPosData.style }}>
-            <div style={{ fontSize: 48, fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.025em' }}>{title}</div>
+            <div style={{ fontSize: 48, fontWeight: 500, lineHeight: 1.15, letterSpacing: '-0.025em' }}>{title}</div>
             {subtitle && <div style={{ fontSize: 20, fontWeight: 400, marginTop: 12 }}>{subtitle}</div>}
           </div>
         </div>
@@ -271,6 +275,20 @@ export default function ThumbnailGenerator() {
           <div>
             <label style={labelStyle}>Taille: {imageSize}px</label>
             <input type="range" min={100} max={700} value={imageSize} onChange={(e) => setImageSize(Number(e.target.value))} style={{ width: '100%' }} />
+          </div>
+          <div>
+            <label style={labelStyle}>Ajuster position</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 40px)', gap: '4px', justifyContent: 'center' }}>
+              <div />
+              <button onClick={() => setImageOffsetY(y => y - 20)} style={{ padding: '8px', border: '1px solid #444', borderRadius: '4px', background: '#222', color: '#fff', cursor: 'pointer' }}>↑</button>
+              <div />
+              <button onClick={() => setImageOffsetX(x => x - 20)} style={{ padding: '8px', border: '1px solid #444', borderRadius: '4px', background: '#222', color: '#fff', cursor: 'pointer' }}>←</button>
+              <button onClick={() => { setImageOffsetX(0); setImageOffsetY(0); }} style={{ padding: '8px', border: '1px solid #444', borderRadius: '4px', background: '#333', color: '#fff', cursor: 'pointer', fontSize: '10px' }}>⟲</button>
+              <button onClick={() => setImageOffsetX(x => x + 20)} style={{ padding: '8px', border: '1px solid #444', borderRadius: '4px', background: '#222', color: '#fff', cursor: 'pointer' }}>→</button>
+              <div />
+              <button onClick={() => setImageOffsetY(y => y + 20)} style={{ padding: '8px', border: '1px solid #444', borderRadius: '4px', background: '#222', color: '#fff', cursor: 'pointer' }}>↓</button>
+              <div />
+            </div>
           </div>
           <button onClick={handleExport} style={{ padding: '14px 24px', backgroundColor: PALETTE.violet, color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600', fontSize: '16px', cursor: 'pointer', marginTop: '8px' }}>
             Exporter PNG
