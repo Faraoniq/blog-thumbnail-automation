@@ -28,6 +28,14 @@ const ILLUSTRATIONS = [
   { id: 'stadium-white', name: 'Stade (blanc)', url: CDN + '/white.png' },
   { id: 'stadium-black', name: 'Stade (noir)', url: CDN + '/black.png' },
   { id: 'stadium-purple', name: 'Stade (violet)', url: CDN + '/purple.png' },
+  { id: 'data-08', name: 'Data 08', url: CDN + '/data-08.png' },
+  { id: 'data-09', name: 'Data 09', url: CDN + '/data-09.png' },
+  { id: 'data-10', name: 'Data 10', url: CDN + '/data-10.png' },
+  { id: 'data-11', name: 'Data 11', url: CDN + '/data-11.png' },
+  { id: 'data-12', name: 'Data 12', url: CDN + '/data-12.png' },
+  { id: 'data-13', name: 'Data 13', url: CDN + '/data-13.png' },
+  { id: 'data-14', name: 'Data 14', url: CDN + '/data-14.png' },
+  { id: 'data-15', name: 'Data 15', url: CDN + '/data-15.png' },
 ];
 
 const POSITIONS = [
