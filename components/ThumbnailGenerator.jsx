@@ -142,7 +142,7 @@ export default function ThumbnailGenerator() {
       const pos = getCanvasPos(textPosition, 0);
       const align = getTextAlign(textPosition);
       ctx.fillStyle = currentTheme.text;
-      ctx.font = '600 48px SuisseIntl, sans-serif';
+      ctx.font = '500 48px SuisseIntl, sans-serif';
       const letterSpacing = -0.025 * 48;
       
       const maxWidth = 400;
@@ -229,7 +229,7 @@ export default function ThumbnailGenerator() {
       <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
         <div style={{ width: CANVAS.width, height: CANVAS.height, backgroundColor: currentTheme.bg, borderRadius: '8px', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
           {imageUrl && (
-            <img src={imageUrl} alt="" style={{ position: 'absolute', width: imageSize, height: imageSize, objectFit: 'contain', ...imagePosData.style, transform: `translate(${imageOffsetX}px, ${imageOffsetY}px)` }} />
+            <img src={imageUrl} alt="" style={{ position: 'absolute', width: imageSize, height: imageSize, objectFit: 'contain', ...imagePosData.style, transform: `${imagePosData.style.transform || ""} translate(${imageOffsetX}px, ${imageOffsetY}px)` }} />
           )}
           <div style={{ position: 'absolute', maxWidth: 400, color: currentTheme.text, textAlign: getTextAlign(textPosition), ...textPosData.style }}>
             <div style={{ fontSize: 48, fontWeight: 500, lineHeight: 1.15, letterSpacing: '-0.025em' }}>{title}</div>
